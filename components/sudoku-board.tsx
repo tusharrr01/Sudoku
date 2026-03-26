@@ -101,7 +101,7 @@ export function SudokuBoard({
     channelRef.current.send({
       type: 'broadcast',
       event: 'chat_message',
-      payload: { text: chatInput.trim(), senderName: realName },
+      payload: { text: chatInput.trim(), senderName: realName, senderId: myPlayerId },
     });
 
     setChatInput('');
@@ -221,6 +221,9 @@ export function SudokuBoard({
         'broadcast',
         { event: 'chat_message' },
         (payload: any) => {
+          // Ignore echo of our own message (channel shares `self: true` with page.tsx)
+          if (payload.payload.senderId === myPlayerId) return;
+          
           if (payload.payload.text && payload.payload.senderName) {
             addChatMessage(payload.payload.text, payload.payload.senderName, false);
           }
