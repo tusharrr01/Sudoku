@@ -251,6 +251,13 @@ export function SudokuBoard({
       // If the cell is already correct, don't allow changing it
       if (grid[row][col] !== 0 && grid[row][col] === solution[row][col]) return;
 
+      // If the cell is wrong, force the user to erase it first (value === 0)
+      if (grid[row][col] !== 0 && grid[row][col] !== solution[row][col] && value !== 0) {
+        setVibratingCell(`${row}-${col}`);
+        setTimeout(() => setVibratingCell(null), 500);
+        return;
+      }
+
       const newGrid = grid.map((r) => [...r]);
       newGrid[row][col] = value;
 

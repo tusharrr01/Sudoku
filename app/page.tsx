@@ -17,7 +17,7 @@ export default function HomePage() {
           <div className="inline-block mb-4 sm:mb-6 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-sm font-bold tracking-wider uppercase animate-bounce">
             Real-time Multiplayer
           </div>
-          <h1 className="text-[12vw] sm:text-5xl md:text-8xl font-black mb-3 leading-[0.9] tracking-tighter gradient-text uppercase italic">
+          <h1 className="text-[12vw] sm:text-5xl md:text-8xl font-black mb-3 leading-[0.9] tracking-tighter gradient-text uppercase">
             Sudoku<br className="sm:hidden" /> Mastery
           </h1>
           <p className="text-sm sm:text-base md:text-2xl text-muted-foreground/80 max-w-md mx-auto font-medium leading-relaxed px-4 mt-4">
