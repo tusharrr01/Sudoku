@@ -254,7 +254,14 @@ export function SudokuBoard({
       // Prevent changes on initial puzzle cells
       if (puzzle[row][col] !== 0) return;
 
-      // If the cell is already correct, don't allow changing it
+      // Erase guard: do NOT allow erasing a correct number
+      if (value === 0 && grid[row][col] !== 0 && grid[row][col] === solution[row][col]) {
+        setVibratingCell(`${row}-${col}`);
+        setTimeout(() => setVibratingCell(null), 500);
+        return;
+      }
+
+      // If the cell is already correct, don't allow changing it with a number either
       if (grid[row][col] !== 0 && grid[row][col] === solution[row][col]) return;
 
       // If the cell is wrong, force the user to erase it first (value === 0)
