@@ -27,7 +27,7 @@ A premium, real-time cooperative Sudoku application built with Next.js, React, a
 
 ## 📸 Screenshot
 
-![Preview](public/demo.png)
+![Preview](public/preview.png)
 
 ---
 

@@ -85,7 +85,7 @@ export function SudokuCell({
     <input
       ref={inputRef}
       type="text"
-      inputMode="numeric"
+      inputMode="none"
       maxLength={1}
       value={value || ''}
       onChange={handleChange}
