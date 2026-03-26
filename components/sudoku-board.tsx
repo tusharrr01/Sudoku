@@ -43,7 +43,7 @@ export function SudokuBoard({
 
   // Sync solved status when parent fetches state
   useEffect(() => {
-    if (status === 'solved') {
+    if (status === 'completed') {
       setSolved(true);
     }
   }, [status]);
@@ -294,13 +294,27 @@ export function SudokuBoard({
         });
 
         if (!response.ok) {
-          throw new Error('Failed to save move');
+      throw new Error('Failed to save move');
         }
 
         const data = await response.json();
 
-        if (data.solved) {
-          setSolved(true);
+        // If the server tells us the game is now solved or failed, force a hard refresh for everyone
+        if (data.solved || data.failed) {
+          if (data.solved) setSolved(true);
+          
+          if (channelRef.current) {
+            channelRef.current.send({
+              type: 'broadcast',
+              event: 'refresh_state',
+              payload: {}
+            }).catch(console.error);
+          }
+        }
+
+        // Keep local grid in sync with server representation just in case
+        if (data.grid) {
+          setGrid(data.grid);
         }
 
         // Notify lobby that state (mistakes/completion) has changed
