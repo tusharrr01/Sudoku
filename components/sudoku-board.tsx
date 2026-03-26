@@ -54,10 +54,13 @@ export function SudokuBoard({
   const [chatInput, setChatInput] = useState('');
   const [isChatFocused, setIsChatFocused] = useState(false);
   const [myPlayerId, setMyPlayerId] = useState<string | null>(null);
+  const myPlayerIdRef = useRef<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMyPlayerId(localStorage.getItem('sudoku-player-id'));
+    const id = localStorage.getItem('sudoku-player-id');
+    setMyPlayerId(id);
+    myPlayerIdRef.current = id;
   }, []);
 
   useEffect(() => {
@@ -221,9 +224,9 @@ export function SudokuBoard({
         'broadcast',
         { event: 'chat_message' },
         (payload: any) => {
-          // Ignore echo of our own message (channel shares `self: true` with page.tsx)
-          if (payload.payload.senderId === myPlayerId) return;
-          
+          // Use ref to get fresh value — state would be a stale closure from mount
+          if (payload.payload.senderId && payload.payload.senderId === myPlayerIdRef.current) return;
+
           if (payload.payload.text && payload.payload.senderName) {
             addChatMessage(payload.payload.text, payload.payload.senderName, false);
           }
